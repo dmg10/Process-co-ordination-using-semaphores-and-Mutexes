@@ -9,27 +9,27 @@ pid32 timer_id;
 int32 consumed_count = 0;
 const int32 CONSUMED_MAX = 100;
 
-/* Define your circular buffer structure and semaphore variables here */
+
 /* */
 sid32 produced, consumed;
 int a[BUFFER_SIZE];
 int head, tail;
 
-/* Place your code for entering a critical section here */
+
 void mutex_acquire(sid32 mutex)
 {
 	/* */
 	wait(mutex);
 }
 
-/* Place your code for leaving a critical section here */
+
 void mutex_release(sid32 mutex)
 {
 	/* */
 	signal(mutex);
 }
 
-/* Place the code for the buffer producer here */
+
 process producer(void)
 {
 	/* */
@@ -47,14 +47,10 @@ process producer(void)
 	return OK;
 }
 
-/* Place the code for the buffer consumer here */
+
 process consumer(void)
 {
-	/* Every time your consumer consumes another buffer element,
-	 * make sure to include the statement:
-	 *   consumed_count += 1;
-	 * this will allow the timing function to record performance */
-	/* */
+	
 	int x;
 	while(1)
 	{
@@ -71,7 +67,7 @@ process consumer(void)
 }
 
 
-/* Timing utility function - please ignore */
+
 process time_and_end(void)
 {
 	
@@ -106,7 +102,7 @@ process	main(void)
 {
 	recvclr();
 	
-	/* Create the shared circular buffer and semaphores here */
+	/* Create the shared circular buffer and semaphores*/
 	/* */
 	produced = semcreate(0);
 	consumed = semcreate(1);
@@ -119,7 +115,7 @@ process	main(void)
 	resched_cntl(DEFER_START);
 	resume(producer_id);
 	resume(consumer_id);
-	/* Uncomment the following line for part 3 to see timing results */
+	
 	resume(timer_id); 
 	resched_cntl(DEFER_STOP);
 
